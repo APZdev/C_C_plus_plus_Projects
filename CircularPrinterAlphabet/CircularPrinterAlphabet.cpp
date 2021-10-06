@@ -26,7 +26,7 @@ int main()
 int GetMovementStepAmount(char startingCharacter, char destinationCharacter)
 {
     //Get the clockwise steps
-    int clockwiseCount = (destinationCharacter - 65) % 26 - (startingCharacter - 65) % 26;
+    int clockwiseCount = (destinationCharacter - 65) - (startingCharacter - 65);
 
     //Get the anti-clockwise steps
     int antiClockwiseCount = 26 - clockwiseCount;
