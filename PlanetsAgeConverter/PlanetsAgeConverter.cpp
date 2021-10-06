@@ -46,36 +46,9 @@ int main()
 
 double PlanetConverter(int planetId)
 {
-    switch (planetId)
-    {
-    case 1: // Mercure
-        return 0.2408467;
-        break;
-    case 2: //Venus
-        return 0.61519726;
-        break;
-    case 3: //Terre
-        return 1.0;
-        break;
-    case 4: //Mars
-        return 1.8808158;
-        break;
-    case 5: //Jupiter
-        return 11.862615;
-        break;
-    case 6: //Saturne
-        return 29.447498;
-        break;
-    case 7: //Uranus
-        return 84.016846;
-        break;
-    case 8: //Neptune
-        return 164.79132;
-        break;
-    default:
-        return 1.0;
-        break;
-    }
+    double multipliers[8] = { 0.2408467 ,0.61519726 ,1.0 , 1.8808158, 11.862615, 29.447498, 84.016846, 164.79132};
+
+    return multipliers[planetId - 1];
 }
 
 double YearsToSeconds(double ageInYears)
