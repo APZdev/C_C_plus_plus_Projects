@@ -1,13 +1,6 @@
 #include <stdlib.h>
 #include <math.h>
-
-class Vector2;
-class Circle;
-static Vector2* AddVector(const Vector2 a, const Vector2 b);
-static Vector2* CoordinatesMedianPoint(const Vector2 a, const Vector2 b);
-static class Vector2* SwapCoordinates(const Vector2 a, const Vector2 b);
-static Vector2 Distance(const Vector2 a, const Vector2 b);
-static int InsideCircle(Circle circle, Vector2 point);
+#include "Utility.h"
 
 class Vector2
 {
@@ -48,63 +41,59 @@ public:
     }
 };
 
-class Utility
+static Vector2* AddVector(const Vector2 a, const Vector2 b)
 {
-public:
-    static Vector2* AddVector(const Vector2 a, const Vector2 b)
+    Vector2* result = (Vector2*)calloc(2, sizeof(Vector2));
+
+    if (result)
     {
-        Vector2* result = (Vector2*)calloc(2, sizeof(Vector2));
-
-        if (result)
-        {
-            result->x = a.x + b.x;
-            result->y = a.y + b.y;
-        }
-
-        return result;
+        result->x = a.x + b.x;
+        result->y = a.y + b.y;
     }
 
-    static Vector2* CoordinatesMedianPoint(const Vector2 a, const Vector2 b)
+    return result;
+}
+
+static Vector2* CoordinatesMedianPoint(const Vector2 a, const Vector2 b)
+{
+    Vector2* result = (Vector2*)calloc(2, sizeof(Vector2));
+
+    if (result) //Prevent NULL pointer dereferencing error
     {
-        Vector2* result = (Vector2*)calloc(2, sizeof(Vector2));
-
-        if (result) //Prevent NULL pointer dereferencing error
-        {
-            result->x = (a.x + b.x) / 2;
-            result->y = (a.y + b.y) / 2;
-        }
-
-        return result;
+        result->x = (a.x + b.x) / 2;
+        result->y = (a.y + b.y) / 2;
     }
 
-    //Can only return an array if we store it's pointer on the heap
-    //Return array of struct/class explained -> https://stackoverflow.com/questions/47028165/how-do-i-return-an-array-of-struct-from-a-function/47028268s
-    static Vector2* SwapCoordinates(const Vector2 a, const Vector2 b)
+    return result;
+}
+
+//Can only return an array if we store it's pointer on the heap
+//Return array of struct/class explained -> https://stackoverflow.com/questions/47028165/how-do-i-return-an-array-of-struct-from-a-function/47028268s
+static Vector2* SwapCoordinates(const Vector2 a, const Vector2 b)
+{
+    Vector2 coordinatesBuffer = a;
+    Vector2* swapedCoordinates = (Vector2*)calloc(2, sizeof(Vector2));
+
+    if (swapedCoordinates)
     {
-        Vector2 coordinatesBuffer = a;
-        Vector2* swapedCoordinates = (Vector2*)calloc(2, sizeof(Vector2));
-
-        if (swapedCoordinates)
-        {
-            swapedCoordinates[0] = b;
-            swapedCoordinates[1] = coordinatesBuffer;
-        }
-
-        return swapedCoordinates;
+        swapedCoordinates[0] = b;
+        swapedCoordinates[1] = coordinatesBuffer;
     }
 
-    static Vector2 Distance(const Vector2 a, const Vector2 b)
-    {
-        Vector2 finalVector;
+    return swapedCoordinates;
+}
 
-        finalVector.x = b.x - a.x;
-        finalVector.y = b.y - a.y;
+static Vector2 Distance(const Vector2 a, const Vector2 b)
+{
+    Vector2 finalVector;
 
-        return finalVector;
-    }
+    finalVector.x = b.x - a.x;
+    finalVector.y = b.y - a.y;
 
-    static int InsideCircle(Circle circle, Vector2 point)
-    {
-        return pow(point.x - circle.origin->x, 2) + pow(point.y - circle.origin->y, 2) < pow(circle.radius, 2);
-    }
-};
+    return finalVector;
+}
+
+static int InsideCircle(Circle circle, Vector2 point)
+{
+    return pow(point.x - circle.origin->x, 2) + pow(point.y - circle.origin->y, 2) < pow(circle.radius, 2);
+}
