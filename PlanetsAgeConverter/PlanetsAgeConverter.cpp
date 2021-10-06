@@ -21,9 +21,9 @@ double PlanetConverter(int planetId);
 
 int main()
 {
-    long long ageInSeconds = 1000000000;
-    printf("What is your age ? -> ");
-    //scanf_s("%lld", &ageInSeconds);
+    long long ageInSeconds;
+    printf("What is your age in seconds -> ");
+    scanf_s("%lld", &ageInSeconds);
 
     printf("\n\nSelect a planet : \n");
     printf("1.Mercure\n");
