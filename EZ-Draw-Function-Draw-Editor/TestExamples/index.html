@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EZ-Draw</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/styleET2019c.css" />
+  <link rel="icon" type="image/x-icon" href="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/favicon.ico">
+</head>
+<body>
+
+  <div id="bandeau">
+    <div class="titre">
+      EZ-Draw, pour dessiner en C
+   </div>
+    <div class="droite">
+      <span class="legende">Lien court :</span> 
+      <a href="http://j.mp/ez-draw">j.mp/ez-draw</a>
+    </div>
+  </div>
+
+  <div class="mypict">
+    <img title="Français" alt="Français" 
+      src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/images/flag-fr-32-sel.png"></img> &nbsp;
+    <a href="index-en.html"><img title="English" alt="English" 
+      src="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/images/flag-en-32.png"></img></a> &nbsp;
+  </div>
+
+  <div class="mono">
+
+<p class="centrer sauter">
+  Copyright (c) 2008-2021 by <a href="../index.html">Edouard Thiel</a>
+</p> 
+
+<p class="justifier">
+  EZ-Draw ("Easy Draw") est une petite boîte à outil graphique minimaliste
+  pour le langage C, fonctionnant à la fois
+  sous Linux, Mac OS X et Windows (toutes versions).
+</p>
+
+<p class="justifier">
+  EZ-Draw est conçu pour l'apprentissage
+  de la programmation événementielle et des interfaces graphiques. 
+  Il permet de créer de façon très simple
+  des fenêtres, y dessiner, réagir à la souris et au clavier, 
+  faire des animations.
+</p>
+
+<p class="justifier">
+  Le coeur de EZ-Draw est constitué par un seul module C ;
+  il est basé en interne sur la librairie Xlib (sous Unix) et sur l'API win32
+  (sous Windows).
+</p>
+
+<p class="justifier">
+  Un second module permet de lire et d'afficher des images 
+  aux formats PNG, JPEG, GIF et BMP.
+</p>
+
+  <table class="table1">
+    <tr>
+      <td><a href="../EZ-Draw-1.2a.tgz">EZ-Draw-1.2a.tgz</a></td>
+      <td>Téléchargez la version stable, prête à 
+          compiler, avec les exemples et la documentation.</td>
+    </tr>
+    <tr>
+      <td><a href="http://pageperso.lif.univ-mrs.fr/~edouard.thiel/snap-EZ-Draw-1.2/index.html">Snapshots</a></td>
+      <td>Quelques captures d'écran.</td>
+    </tr>
+    <tr>
+      <td><a href="doc/fr/html/ez-manual.html">Documentation</a></td>
+      <td>Le tutorial et le manuel de référence.</td>
+    </tr>
+    <tr>
+      <td><a href="doc/fr/html/ez-install.html">Installation</a></td>
+      <td>Explique comment tout installer et compiler.</td>
+    </tr>
+    <tr>
+      <td><a href="LICENSE">LICENSE</a></td>
+      <td>GNU Lesser General Public Licence (LGPL).</td>
+    </tr>
+  </table>
+
+<h3>Les codes sources :</h3>
+
+<div class="multi">
+  <div class="col-n2 liste5">
+    <ul>
+      <li> <a href="ez-draw.h">ez-draw.h</a> :</li>
+      <li> <a href="ez-draw.c">ez-draw.c</a> : le module de base en C.</li>
+      <li class="li-empty">&nbsp;</li>
+      <li> <a href="ez-image.h">ez-image.h</a> :</li>
+      <li> <a href="ez-image.c">ez-image.c</a> : le module pour afficher des images.</li>
+      <li class="li-empty">&nbsp;</li>
+      <li> <a href="Makefile">Makefile</a> : pour tout compiler sous Unix ou Windows.</li>
+      <li> <a href="make.bat">make.bat</a> : pour aider la compilation sous Windows.</li>
+      <li class="li-empty">&nbsp;</li>
+      <li> <a href="demo-01.c">demo-01.c</a> : première fenêtre.</li>
+      <li> <a href="demo-02.c">demo-02.c</a> : fenêtre et évènements.</li>
+      <li> <a href="demo-03.c">demo-03.c</a> : tous les dessins.</li>
+      <li> <a href="demo-04.c">demo-04.c</a> : affichage de texte.</li>
+      <li> <a href="demo-05.c">demo-05.c</a> : trace les évènements.</li>
+      <li> <a href="demo-06.c">demo-06.c</a> : dessin à la souris.</li>
+      <li> <a href="demo-07.c">demo-07.c</a> : plusieurs fenêtres.</li>
+      <li> <a href="demo-08.c">demo-08.c</a> : saisie de texte.</li>
+      <li> <a href="demo-09.c">demo-09.c</a> : animation simple.</li>
+      <li> <a href="demo-10.c">demo-10.c</a> : animations multiples.</li>
+      <li> <a href="demo-11.c">demo-11.c</a> : couleurs.</li>
+      <li> <a href="demo-12.c">demo-12.c</a> : palette HSV.</li>
+      <li> <a href="demo-13.c">demo-13.c</a> : affichage d'une image.</li>
+      <li> <a href="demo-14.c">demo-14.c</a> : images avec transparence.</li>
+      <li> <a href="demo-15.c">demo-15.c</a> : changement de taille.</li>
+      <li> <a href="demo-16.c">demo-16.c</a> : rotation d'image.</li>
+      <li> <a href="demo-17.c">demo-17.c</a> : pixmaps et fps.</li>
+    </ul>
+  </div>
+  <div class="col-n2 liste5">
+    <ul>
+      <li> <a href="jeu-2048.c">jeu-2048.c</a> : jeu 2048 - puissances de 2 / Fibonacci.</li>
+      <li> <a href="jeu-bubblet.c">jeu-bubblet.c</a> : jeu Bubblet (ou Jawbreaker).</li>
+      <li> <a href="jeu-doodle.c">jeu-doodle.c</a> : Doodle à Londres (Doodle Jump).</li>
+      <li> <a href="jeu-ezen.c">jeu-ezen.c</a> : jeu ezen (puzzle Loops of Zen).</li>
+      <li> <a href="jeu-heziom.c">jeu-heziom.c</a> : jeu Heziom (puzzle hexagonal Hexiom).</li>
+      <li> <a href="jeu-laby.c">jeu-laby.c</a> : labyrinthe 3D.</li>
+      <li> <a href="jeu-nim.c">jeu-nim.c</a> : le jeu de NIM.</li>
+      <li> <a href="jeu-sudoku.c">jeu-sudoku.c</a> : jeu de sudoku.</li>
+      <li> <a href="jeu-tangram.c">jeu-tangram.c</a> : jeu de tangram (puzzle).</li>
+      <li> <a href="jeu-taquin.c">jeu-taquin.c</a> : jeu de taquin.</li>
+      <li> <a href="jeu-vie.c">jeu-vie.c</a> : jeu de la vie.</li>
+      <li> <a href="jeu-tetris.c">jeu-tetris.c</a> : jeu inspiré de Tétris.</li>
+    </ul>
+  </div>
+</div> <!-- multi-->
+
+<h3>Projets alternatifs :</h3>
+
+  <table class="table1">
+    <tr>
+      <td><a href="http://eric.remy3.free.fr/EZ-Draw++/">EZ-Draw++</a></td>
+      <td>Une adaptation de EZ-Draw au langage et à la philosophie du C++.</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/marpon/EZ-DrawFb">EZ-DrawFB</a></td>
+      <td>Une adaptation de EZ-Draw au langage FreeBasic.</td>
+    </tr>
+    <tr>
+      <td><a href="http://pageperso.lif.univ-mrs.fr/~benoit.favre/EZ-Draw-js/">EZ-Draw-js</a></td>
+      <td>Permet de compiler les programmes EZ-Draw en javascript + html5 pour qu'ils
+          s'affichent dans une page web.</td>
+    </tr>
+    <tr>
+      <td><a href="../ez-draw-gtk/index.html">EZ-Draw-GTK</a></td>
+      <td>Présente les démos de EZ-Draw réécrites avec GTK+ 2.x en langage C.</td>
+    </tr>
+  </table>
+
+  </div> <!-- mono -->
+
+  <div id="footer">
+    <p>Mis à jour le 17/10/2019</p>
+  </div>
+
+</body>
+</html> 
+

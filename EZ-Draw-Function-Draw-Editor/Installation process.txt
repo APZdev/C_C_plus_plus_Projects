@@ -1,0 +1,13 @@
+Install tdm-gcc-webdl.exe -> https://jmeubank.github.io/tdm-gcc/download/
+1. Double-cliquez sur le fichier, puis cliquez sur “Exécuter” : la fenêtre d’installation apparaît.
+2. Cliquez sur “Create”, puis “MinGW/TDM (32-bit)”, “Next”.
+3. Laissez “Installation Directory” a c:\MinGW32, cliquez sur “Next”.
+4. Sélectionnez un miroir, par exemple “[Europe - France] Free France”, puis “Next”.
+5. Sélectionnez le type d’installation “TDM-GCC Recommended, C/C++” puis cliquez sur “Install”.
+6. Lorsque l’installation est “Completed successfully”, cliquez “Next” puis “Finish”.
+7. Si vous aviez un terminal ouvert il faut le fermer maintenant.
+
+Documentation -> http://pageperso.lif.univ-mrs.fr/~edouard.thiel/ez-draw/doc/fr/html/ez-manual.html
+
+(Windows) Run command in CMD -> gcc -Wall <program_name>.c ez-draw.c -o <output_executable_name>.exe -lgdi32
+        This project example- > gcc -Wall FunctionDrawEditor.c ez-draw.c -o FunctionDrawEditor.exe -lgdi32
