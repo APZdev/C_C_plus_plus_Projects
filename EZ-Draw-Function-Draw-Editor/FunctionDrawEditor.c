@@ -15,11 +15,17 @@
 
 #include "ez-draw.h"
 #include <math.h>
+#define CurvePrecision 0.001
 
 typedef struct {
     int unitInPixelsX, unitInPixelsY, graphOffsetX, graphOffsetY, lastPosX, lastPosY;
 } NavigationValues;
 
+typedef struct {
+    double curveValues[(int)(1 + (50 * (1 / CurvePrecision) * 2))];
+} StoredCurve;
+
+StoredCurve storedCurve;
 NavigationValues navigationValues;
 
 void drawCaretAtPosition(Ez_window win, int x, int y, int onHorizontalAxis)
@@ -55,23 +61,31 @@ void drawFunction(Ez_window win, int width, int height, int unitInPixelsX, int u
     ez_set_thick(3.5);
     ez_set_color(ez_red);
 
-    double horizontalPrecision = 0.001;
-
     int sectionAmountX = (int)(width / unitInPixelsX);
-    for (double i = -(int)(sectionAmountX / 2); i <= (int)(sectionAmountX / 2); i += horizontalPrecision)
+    int arrayCounter = 0;
+    for (double i = -(int)(sectionAmountX / 2); i <= (int)(sectionAmountX / 2); i += CurvePrecision)
     {
-
         int testCaseResult, testCaseNextResult; //Store the test case result to prevent rendering a point that doesn't exist
 
         //Get result of current point and next to draw a line
         double result = getFunctionImage(i, &testCaseResult);
-        double nextResult = getFunctionImage(i + horizontalPrecision, &testCaseNextResult);
+        double nextResult = getFunctionImage(i + CurvePrecision, &testCaseNextResult);
 
         if (testCaseResult > 0 && testCaseNextResult > 0) //Draw line only if both test case passed
         {
+            storedCurve.curveValues[(int)(i * CurvePrecision)] = result;
+
+            if ((int)(i * CurvePrecision) == 0)
+            {
+                char numStr[25];
+                snprintf(numStr, 50, "%lf : %lf", (i * CurvePrecision), result);
+                ez_draw_text(win, EZ_BC, 70, 30, numStr);
+            }
+
             ez_draw_line(win, (int)((width / 2 ) + windowOriginOffsetX + (i * unitInPixelsX)), (int)((height / 2) + windowOriginOffsetY - (result * unitInPixelsY)),
-                (int)((width / 2) + windowOriginOffsetX + ((i + horizontalPrecision) * unitInPixelsX)), (int)((height / 2) + windowOriginOffsetY - (nextResult * unitInPixelsY)));
+                (int)((width / 2) + windowOriginOffsetX + ((i + CurvePrecision) * unitInPixelsX)), (int)((height / 2) + windowOriginOffsetY - (nextResult * unitInPixelsY)));
         }
+        arrayCounter++;
     }
 }
 
@@ -114,9 +128,6 @@ void drawAxisLines(Ez_window win, int width, int height, int unitInPixelsX, int 
 
 void win1_on_expose(Ez_event* ev)
 {
-    //Rescale the window every frame to prevent resizing -> until i find how to lock resize
-    ez_window_set_size(ev->win, 1280, 720);
-
     int width = 0, height = 0;
     ez_window_get_size(ev->win, &width, &height);
 
@@ -125,21 +136,6 @@ void win1_on_expose(Ez_event* ev)
 
     drawAxisLines(ev->win, width, height, navigationValues.unitInPixelsX, navigationValues.unitInPixelsY, windowOriginOffsetX, windowOriginOffsetY);
     drawFunction(ev->win, width, height, navigationValues.unitInPixelsX, navigationValues.unitInPixelsY, windowOriginOffsetX, windowOriginOffsetY);
-}
-
-void moveGraphOriginPos(Ez_window win, int x, int y)
-{
-    if (x > 0)
-        navigationValues.graphOffsetX += 10;
-    else if(x < 0)
-        navigationValues.graphOffsetX -= 10;
-
-    if (y > 0)
-        navigationValues.graphOffsetY += 10;
-    else if(y < 0)
-        navigationValues.graphOffsetY -= 10;
-
-    ez_send_expose(win);
 }
 
 void increaseGraphScale(Ez_window win)
@@ -164,27 +160,27 @@ void decreaseGraphScale(Ez_window win)
 void win1_on_motion_notify(Ez_event* ev) /* Mouse moved */
 {
     /*
+    //Print mouse window cordinates
     char numStr[25];
     snprintf(numStr, 50, "x : %d, y : %d", ev->mx, ev->my);
     ez_draw_text(ev->win, EZ_BC, 70, 30, numStr);
     */
 
-    //TODO : Move graph on click
-
+    //Move graph on click drag
     if (ev->mb >= 1)
     {
-        abs(ev->mx - navigationValues.lastPosX);
-        abs(ev->my - navigationValues.lastPosY);
-
-        navigationValues.graphOffsetX += ev->mx - navigationValues.lastPos);
-
+        navigationValues.graphOffsetX += ev->mx - navigationValues.lastPosX;
+        navigationValues.graphOffsetY += ev->my - navigationValues.lastPosY;
+        
         navigationValues.lastPosX = ev->mx;
         navigationValues.lastPosY = ev->my;
     }
-
+    else
+    {
+        navigationValues.lastPosX = ev->mx;
+        navigationValues.lastPosY = ev->my;
+    }
     ez_send_expose(ev->win);
-
-    //ez_send_expose(ev->win);
 }
 
 
@@ -194,10 +190,6 @@ void win1_on_key_press(Ez_event* ev)
     case XK_q: ez_quit(); break;
     case XK_p: increaseGraphScale(ev->win); break;
     case XK_m: decreaseGraphScale(ev->win); break;
-    case XK_Left: moveGraphOriginPos(ev->win, -1, 0); break;
-    case XK_Right: moveGraphOriginPos(ev->win, 1, 0); break;
-    case XK_Up: moveGraphOriginPos(ev->win, 0, -1); break;
-    case XK_Down: moveGraphOriginPos(ev->win, 0, 1); break;
     }
 }
 
@@ -223,8 +215,10 @@ int main ()
     navigationValues.graphOffsetX = 0;
     navigationValues.graphOffsetY = 0;
 
-    //FIX : Try to enable the buffer and figure out why the screen is white
-    ez_window_dbuf(window, 0);
+    //TODO : Try to somehow lock window size
+
+    //If screen buffer is On, don't resize window every frame
+    ez_window_dbuf(window, 1);
 
     ez_main_loop ();
     exit(0);
