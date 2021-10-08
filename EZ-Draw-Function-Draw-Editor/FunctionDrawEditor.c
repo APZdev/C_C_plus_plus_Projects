@@ -22,7 +22,7 @@ typedef struct {
 } NavigationValues;
 
 typedef struct {
-    double curveValues[(int)(1 + (50 * (1 / CurvePrecision) * 2))];
+    float curveValues[(int)(1 + (50 * (1 / CurvePrecision) * 2))];
 } StoredCurve;
 
 StoredCurve storedCurve;
@@ -73,14 +73,11 @@ void drawFunction(Ez_window win, int width, int height, int unitInPixelsX, int u
 
         if (testCaseResult > 0 && testCaseNextResult > 0) //Draw line only if both test case passed
         {
-            storedCurve.curveValues[(int)(i * CurvePrecision)] = result;
+            storedCurve.curveValues[(int)(abs(i * CurvePrecision))] = result;
 
-            if ((int)(i * CurvePrecision) == 0)
-            {
-                char numStr[25];
-                snprintf(numStr, 50, "%lf : %lf", (i * CurvePrecision), result);
-                ez_draw_text(win, EZ_BC, 70, 30, numStr);
-            }
+            char numStr[25];
+            snprintf(numStr, 50, "%d -> %f", (int)(abs(i * CurvePrecision)), storedCurve.curveValues[(int)(abs(i * CurvePrecision))]);
+            ez_draw_text(win, EZ_BC, 70, 30, numStr);
 
             ez_draw_line(win, (int)((width / 2 ) + windowOriginOffsetX + (i * unitInPixelsX)), (int)((height / 2) + windowOriginOffsetY - (result * unitInPixelsY)),
                 (int)((width / 2) + windowOriginOffsetX + ((i + CurvePrecision) * unitInPixelsX)), (int)((height / 2) + windowOriginOffsetY - (nextResult * unitInPixelsY)));
