@@ -53,12 +53,26 @@ void drawCaretAtPosition(Ez_window win, int x, int y, int onHorizontalAxis)
 
 double getFunctionImage(double x, int* outTestCasePassed)
 {
+    /*
     //Check if the sqrt content is always > 0 to prevent any error
     double testCase = 1 + ((x / 2) * (x + sqrt(pow(x, 2) + 8)));
     if (testCase > 0)
     {
         *outTestCasePassed = 1;
         return sqrt(testCase);
+    }
+    else
+    {
+        *outTestCasePassed = 0;
+        return 0;
+    }
+    */
+
+    double testCase = (2+sin(x));
+    if (testCase > 0)
+    {
+        *outTestCasePassed = 1;
+        return pow(asin(x), 2) / testCase;
     }
     else
     {
