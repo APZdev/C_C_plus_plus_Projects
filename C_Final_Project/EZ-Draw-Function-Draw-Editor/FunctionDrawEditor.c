@@ -53,13 +53,28 @@ void drawCaretAtPosition(Ez_window win, int x, int y, int onHorizontalAxis)
 
 double getFunctionImage(double x, int* outTestCasePassed)
 {
-    /*
-    //Check if the sqrt content is always > 0 to prevent any error
-    double testCase = 1 + ((x / 2) * (x + sqrt(pow(x, 2) + 8)));
+    //Limit calculus between -1 and 1
+    int testCase = (x < 1 && x > -1);
+    
+    //First asked equation
     if (testCase > 0)
     {
         *outTestCasePassed = 1;
-        return sqrt(testCase);
+        return acos(x);
+    }
+    else
+    {
+        *outTestCasePassed = 0;
+        return 0;
+    }
+
+
+    //Second asked equation
+    /*
+    if (testCase > 0)
+    {
+        *outTestCasePassed = 1;
+        return pow(asin(x), 2) / (2 + sin(x));
     }
     else
     {
@@ -67,18 +82,6 @@ double getFunctionImage(double x, int* outTestCasePassed)
         return 0;
     }
     */
-
-    double testCase = (2+sin(x));
-    if (testCase > 0)
-    {
-        *outTestCasePassed = 1;
-        return pow(asin(x), 2) / testCase;
-    }
-    else
-    {
-        *outTestCasePassed = 0;
-        return 0;
-    }
 }
 
 //Calculate and store curve data
@@ -118,11 +121,12 @@ void drawFunction(Ez_window win, int width, int height, int unitInPixelsX, int u
         double yNext = storedCurve.curveValuesY[i + 1];
 
         //Draw the lines
-        if (storedCurve.valueExists[i] == 1)
+        if (storedCurve.valueExists[i] == 1 && storedCurve.valueExists[i + 1] == 1)
         {
             ez_draw_line(win, (int)((width / 2 ) + windowOriginOffsetX + (x * unitInPixelsX)), (int)((height / 2) + windowOriginOffsetY - (y * unitInPixelsY)),
                     (int)((width / 2) + windowOriginOffsetX + ((x + CurvePrecision) * unitInPixelsX)), (int)((height / 2) + windowOriginOffsetY - (yNext * unitInPixelsY)));
         }
+        /*
         else if (storedCurve.valueExists[i] == 0 && storedCurve.valueExists[i + 1] == 1 && isFirstDraw == 1) //First draw check to prevent failed testCases not rendering the first line
         {
             isFirstDraw = 0;
@@ -130,6 +134,7 @@ void drawFunction(Ez_window win, int width, int height, int unitInPixelsX, int u
             ez_draw_line(win, (int)((width / 2) + windowOriginOffsetX + (x * unitInPixelsX)), (int)((height / 2) + windowOriginOffsetY - (0 * unitInPixelsY)),
                 (int)((width / 2) + windowOriginOffsetX + ((x + CurvePrecision) * unitInPixelsX)), (int)((height / 2) + windowOriginOffsetY - (yNext * unitInPixelsY)));
         }
+        */
     }
 }
 
