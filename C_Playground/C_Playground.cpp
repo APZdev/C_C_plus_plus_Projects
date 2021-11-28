@@ -4,69 +4,52 @@
 
 int main()
 {
-    char sentence[50] = "SNVPC.";
-    int sentenceLength = sizeof(sentence) / sizeof(sentence[0]);
-
-    int verbCount = 0;
-
-    if (sentence[0] != 'S')
+    int retry = 1;
+    while (retry)
     {
-        printf("ERROR : Sentence should start using a subject\n"); return 1;
-    }
+        unsigned long input;
+        unsigned long finalInput = 0;
+        short number = 0;
+        short next_number = 10;
+        short number_repetition_count = 0; /*variable pour compter le nombre de fois*/
 
-    int endPointIndex = 0;
-    for (int i = 0; i < sentenceLength; i++)
-    {
-        if (sentence[i] == '\0')
+        printf("Saisir un nombre : ");
+        scanf_s("%d", &input); //Register user input
+
+        int temp_number = input;
+        while (temp_number != 0) //Reverse user input
         {
-            //Get the last non null character of the array, the ponctuation point
-            endPointIndex = i - 1;
-            break;
-        }
-    }
-
-    if (sentence[endPointIndex] != '?' && sentence[endPointIndex] != '!' && sentence[endPointIndex] != '.')
-    {
-        printf("ERROR : The sentence should finish with a ponctuation point\n");
-        return 1;
-    }
-
-
-    for (int i = 0; i < sentenceLength; i++)
-    {
-        if (i > 0 && sentence[i] == 'S')
-        {
-            printf("ERROR : Subject should be on the beginning of the sentence\n"); return 1;
+            /* Increase place value of reversed and add last digit to reversed */
+            finalInput = (finalInput * 10) + (temp_number % 10);
+            temp_number /= 10; // Remove last digit from number
         }
 
-        if (verbCount == 0 && sentence[i] == 'V')
-        {
-            verbCount = 1;
-            //Contain a verb
-        }
-        else if(verbCount == 1 && sentence[i] == 'V')
-        {
-            verbCount = 2;
-            break;
-        }
+        while (finalInput >= 10) {
+            number = finalInput % 10;
+            next_number = finalInput % 100 / 10;
+            number_repetition_count++;
 
-        if (sentence[endPointIndex] == '?')
-        {
-
-        }
-        else
-        {
-            if (sentence[i] == 'N' && sentence[i + 2] != 'P')
-            {
-                printf("ERROR : The negation form is not correct\n"); return 1;
+            while(number == next_number) {
+                number_repetition_count++;
+                finalInput /= 10;
+                number = finalInput % 10;
+                next_number = finalInput % 100 / 10;
             }
+
+            printf("%d%d", number_repetition_count, number);
+            finalInput /= 10;
+            number_repetition_count = 0; //Reset repetition count
         }
+        printf("\n");
+        printf(" __________________\n");
+        printf("|            |     |\n");
+        printf("|   Restart  |  1  |\n");
+        printf("|   Quit     |  0  |\n");
+        printf("|____________|_____|\n\n");
 
-        if (i == endPointIndex) break; //Check end of sentence
+        printf("Choice -> ");
+
+        scanf_s("%d", &retry);
     }
-
-    if (verbCount == 0) printf("ERROR : Does not contain a verb\n");
-    if (verbCount >= 2) printf("ERROR : Sentence contain two or more verbs\n");
-
     return 0;
 }
