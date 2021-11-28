@@ -6,75 +6,78 @@
 */
 
 #include <stdio.h>
+#include <string.h>
+#include <math.h>
 
-int main(int argc,const char * argv) 
+int main()
 {
-    int input ; //number of departure
-    int temp_number = 0;
-    int final_input = 0;
-    int number = 0; //first taken number
-    int next_number = 11; //the next number
-    int nb1 = 0; //variable to count the number of times that one digit goes out
-    int nb2 = 0; //variable to count the number of zero
+    unsigned long long next_input = 0;
 
-    int retry = 1;
-    while (retry)
+    int recompute = 1;
+    while (recompute)
     {
+        unsigned long long input;
+        unsigned long long final_input = 0;
+        short number = 0;
+        short next_number = 10;
+        short number_repetition_count = 1; //variable pour compter le nombre de fois
 
-        printf("Saisir un nombre : ");
-        scanf("%d",&input);
-
-        if (input < 0) //if the input is negatif
-            input *= -1;
-
-        while (input % 10 == 0) //we check if the number finish with zeros before we reverse it
+        if (next_input > 0)
+            input = next_input;
+        else
         {
-            nb2++; //count the zeros only
-            input /= 10;
+            printf("Saisir un nombre : ");
+            scanf_s("%I64u", &input); //Register user input
         }
 
-        temp_number = input;
+        next_input = 0;
 
-        while (temp_number != 0) //Reverse user input
+        while (input != 0) //Reverse user input
         {
             //Increase place value of reversed and add last digit to reversed
-            final_input = (final_input * 10) + (temp_number % 10);
-            temp_number /= 10; // Remove last digit from number
+            final_input = (final_input * 10) + (input % 10);
+            input /= 10; // Remove last digit from number
         }
 
-        if (final_input != 0)
-            input = final_input;
-      
-       while (input != 0)
+        while (final_input != 0) 
         {
-            number = input % 10;
-            next_number = input % 100 / 10;
-            nb1++;
-            input /= 10; //if we only have the same number once
+            number = final_input % 10;
+            next_number = final_input % 100 / 10;
 
-            while (number == next_number) //if we have the same number several times
+            while(number == next_number) 
             {
-                number=input % 10;
-                next_number=input % 100 / 10;
-                nb1++;
-                input /= 10;
+                number_repetition_count++;
+                final_input /= 10;
+                number = final_input % 10;
+                next_number = final_input % 100 / 10;
             }
 
-            printf ("%d%d", nb1, number); //display number of digits and the digit
-            nb1 = 0;
+            printf("%d%d", number_repetition_count, number);
+
+            //Get order of magnitude
+            int num, mag = 0;
+            num = number_repetition_count;
+            while (num > 0)
+            {
+                mag++;
+                num /= 10;
+            }
+
+            if (next_input > 0)
+                next_input *= (int)pow(10, mag + (double)1);
+
+            next_input += (long long)number_repetition_count * (long long)pow(10, mag) + number;
+
+            final_input /= 10;
+            number_repetition_count = 1; //Reset repetition count
         }
 
-        if (nb2 != 0)
-            printf("%d""0", nb2); //display the number of zero if not empty
+        printf("\n");
+        printf("Recompute 1\n");
+        printf("To Quit, Tap 0\n");
 
-        printf("\n __________________\n");
-        printf("|            |     |\n");
-        printf("|   Restart  |  1  |\n");
-        printf("|   Quit     |  0  |\n");
-        printf("|____________|_____|\n\n");
-    
         printf("Choice -> ");
-        scanf(" %d", &retry);
+        scanf_s("%d", &recompute);
     }
     return 0;
 }

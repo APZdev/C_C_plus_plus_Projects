@@ -1,55 +1,83 @@
+/*
+    Exercice : 2
+    Auteur : SALHAB Charbel,POMPOSELLI Adam,MICHEL Louis
+    Date : 26/11/2021
+    Description : Il s'agit d 'un programme C permettant de saisir un nombre quelconque et de l'afficher en comptant chacun des chiffres qui le constitue
+*/
+
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
 #include <math.h>
 
 int main()
 {
-    int retry = 1;
-    while (retry)
+    unsigned long long next_input = 0;
+
+    int recompute = 1;
+    while (recompute)
     {
-        unsigned long input;
-        unsigned long finalInput = 0;
+        unsigned long long input;
+        unsigned long long final_input = 0;
         short number = 0;
         short next_number = 10;
-        short number_repetition_count = 0; /*variable pour compter le nombre de fois*/
+        short number_repetition_count = 1; //variable pour compter le nombre de fois
 
-        printf("Saisir un nombre : ");
-        scanf_s("%d", &input); //Register user input
-
-        int temp_number = input;
-        while (temp_number != 0) //Reverse user input
+        if (next_input > 0)
+            input = next_input;
+        else
         {
-            /* Increase place value of reversed and add last digit to reversed */
-            finalInput = (finalInput * 10) + (temp_number % 10);
-            temp_number /= 10; // Remove last digit from number
+            printf("Saisir un nombre : ");
+            scanf_s("%I64u", &input); //Register user input
         }
 
-        while (finalInput >= 10) {
-            number = finalInput % 10;
-            next_number = finalInput % 100 / 10;
-            number_repetition_count++;
+        next_input = 0;
 
-            while(number == next_number) {
+        while (input != 0) //Reverse user input
+        {
+            //Increase place value of reversed and add last digit to reversed
+            final_input = (final_input * 10) + (input % 10);
+            input /= 10; // Remove last digit from number
+        }
+
+        while (final_input != 0) 
+        {
+            number = final_input % 10;
+            next_number = final_input % 100 / 10;
+
+            while(number == next_number) 
+            {
                 number_repetition_count++;
-                finalInput /= 10;
-                number = finalInput % 10;
-                next_number = finalInput % 100 / 10;
+                final_input /= 10;
+                number = final_input % 10;
+                next_number = final_input % 100 / 10;
             }
 
             printf("%d%d", number_repetition_count, number);
-            finalInput /= 10;
-            number_repetition_count = 0; //Reset repetition count
+
+            //Get order of magnitude
+            int num, mag = 0;
+            num = number_repetition_count;
+            while (num > 0)
+            {
+                mag++;
+                num /= 10;
+            }
+
+            if (next_input > 0)
+                next_input *= (int)pow(10, mag + (double)1);
+
+            next_input += (long long)number_repetition_count * (long long)pow(10, mag) + number;
+
+            final_input /= 10;
+            number_repetition_count = 1; //Reset repetition count
         }
+
         printf("\n");
-        printf(" __________________\n");
-        printf("|            |     |\n");
-        printf("|   Restart  |  1  |\n");
-        printf("|   Quit     |  0  |\n");
-        printf("|____________|_____|\n\n");
+        printf("Recompute 1\n");
+        printf("To Quit, Tap 0\n");
 
         printf("Choice -> ");
-
-        scanf_s("%d", &retry);
+        scanf_s("%d", &recompute);
     }
     return 0;
 }
