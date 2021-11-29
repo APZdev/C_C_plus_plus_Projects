@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 /*
     Exercice : 5
     Auteurs : SALHAB Charbel,POMPOSELLI Adam,MICHEL Louis
@@ -11,14 +14,14 @@
 
 int main(int argc, char**argv)
 {
-    double distance = 0;
-    double total_diesel = 0;
-    double total_essence = 0;
-    double price_essence_location_TTC = 0;
-    double price_diesel_location_TTC = 0;
-    double duration = 0; //we use double because it's easier when we calculate
-
+    double distance = 0;//we use double because it's easier when we calculate
+    double total_diesel = 0;//total price for diesel
+    double total_essence = 0;//total price for essence
+    double price_essence_location_TTC = 0;//price of essence location whithout insurance price's
+    double price_diesel_location_TTC = 0;//price of essence location whithout insurance price's
+    double duration = 0;
     int retry = 1;
+
     while (retry)
     {
         printf("\nTapez une distance:");
@@ -32,32 +35,38 @@ int main(int argc, char**argv)
             price_essence_location_TTC = (30 * duration + 0.13 * distance) * 1.20;
         else
             price_essence_location_TTC = (30 * duration + 10) * 1.20;
+            // essence location with TVA based on duration and distance cost
 
         if (distance >= 800 / 11) //around 72km distance from which the minimum km package is exceeded
             price_diesel_location_TTC=(33.40 * duration + 0.11 * distance) * 1.20;
         else
             price_diesel_location_TTC=(33.40 * duration + 8) * 1.20;
+            // diesel location with TVA based on duration and distance cost
 
-        if ((price_essence_location_TTC*0.04) < 40)
+        if ((price_essence_location_TTC*0.04) < 40)//take 4% of location TTC price's
             total_essence=price_essence_location_TTC + 40;
         else if ((price_essence_location_TTC*0.04) > 85)
             total_essence=price_essence_location_TTC + 85;
-        else total_essence=price_essence_location_TTC * 0.04;
+        else
+            total_essence=price_essence_location_TTC * 0.04;
+        //adding insurance for essence
 
-        if ((price_diesel_location_TTC * 0.04) < 40)
+        if ((price_diesel_location_TTC * 0.04) < 40)//take 4% of location TTC price's
             total_diesel=price_diesel_location_TTC + 40;
         else if ((price_diesel_location_TTC * 0.04) > 85)
             total_diesel=price_diesel_location_TTC + 85;
         else
             total_diesel = price_diesel_location_TTC * 0.04;
+            //adding insurance for diesel
 
 
         printf("\nLe montant TTC pour une location essence :%.2lf euros", total_essence);
         printf("\nLe montant TTC pour une location diesel :%.2lf euros", total_diesel);
 
         if (total_diesel > total_essence)
-        printf("\nLa formule essence est plus avantageuse.");
-        else printf("\nLa formule diesel est la plus avantageuse."); }
+            printf("\nLa formule essence est plus avantageuse.");
+        else
+            printf("\nLa formule diesel est la plus avantageuse."); }
 
         printf("\n__________________\n");
         printf("|            |     |\n");

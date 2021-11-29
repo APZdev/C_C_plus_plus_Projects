@@ -8,10 +8,20 @@
  *
  * This program is free software under the terms of the
  * GNU Lesser General Public License (LGPL) version 2.1.
-*/
+ *
+ *
+ *  Exercice : 6
+ *  Auteur : POMPOSELLI Adam
+ *  Date : 28/11/2021
+ *  Description : Il s'agit d 'un programme C utilisant la librairie EZ-draw et il permet d'afficher la courbe représentative d'une fonction
+ *
+ *  Manuel d'utilisation : 1. Clic gauche + drag pour se déplacer dans le graph
+ *                         2. p pour +zoom, m pour -zoom
+ *                         3. Déplacer le curseur sur la courbe pour avoir les valeurs précises à un point donné
+ */
 
-//Geogebra website -> https://www.geogebra.org/calculator
-//Geogebra equation -> f(x)=sqrt(1+((x)/(2)) (x+sqrt(x^(2)+8)))
+//Geogebra preview website -> https://www.geogebra.org/calculator
+//Geogebra equation -> f(x)= pow(asin(x), 2) / (2 + sin(x));
 
 #include "ez-draw.h"
 #include <math.h>

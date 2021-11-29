@@ -1,83 +1,65 @@
 /*
-    Exercice : 2
+    Exercise : 1
     Auteur : SALHAB Charbel,POMPOSELLI Adam,MICHEL Louis
     Date : 26/11/2021
-    Description : Il s'agit d 'un programme C permettant de saisir un nombre quelconque et de l'afficher en comptant chacun des chiffres qui le constitue
+    Description : Request the number of rows then display a heart
 */
 
 #include <stdio.h>
-#include <string.h>
-#include <math.h>
 
-int main()
+int main(int argc, const char* argv[])
 {
-    unsigned long long next_input = 0;
-
-    int recompute = 1;
-    while (recompute)
+    int retry = 1;
+    while (retry)
     {
-        unsigned long long input;
-        unsigned long long final_input = 0;
-        short number = 0;
-        short next_number = 10;
-        short number_repetition_count = 1; //variable pour compter le nombre de fois
+        int a, b, lines;
 
-        if (next_input > 0)
-            input = next_input;
-        else
-        {
-            printf("Saisir un nombre : ");
-            scanf_s("%I64u", &input); //Register user input
+        printf("Enter the number of lines -> ");
+        scanf(" %d", &lines);
+
+        //printing top semi circular shapes of heart
+        for (a = lines / 2; a <= lines; a += 2) {
+            //Printing Spaces
+            for (b = 1; b < lines - a; b += 2)
+                printf(" ");
+
+            //printing stars for left semi circle
+            for (b = 1; b <= a; b++)
+                printf("*");
+
+            //Printing Spaces
+            for (b = 1; b <= lines - a; b++)
+                printf(" ");
+
+            //printing stars for right semi circle
+            for (b = 1; b <= a; b++)
+                printf("*");
+
+            //move to next row
+            printf("\n");
         }
 
-        next_input = 0;
+        //printing inverted start pyramid
+        for (a = lines; a >= 1; a--) {
+            for (b = a; b < lines; b++)
+                printf(" ");
 
-        while (input != 0) //Reverse user input
-        {
-            //Increase place value of reversed and add last digit to reversed
-            final_input = (final_input * 10) + (input % 10);
-            input /= 10; // Remove last digit from number
+            for (b = 1; b <= (a * 2) - 1; b++)
+                printf("*");
+
+            //move to next row
+            printf("\n");
         }
 
-        while (final_input != 0) 
-        {
-            number = final_input % 10;
-            next_number = final_input % 100 / 10;
-
-            while(number == next_number) 
-            {
-                number_repetition_count++;
-                final_input /= 10;
-                number = final_input % 10;
-                next_number = final_input % 100 / 10;
-            }
-
-            printf("%d%d", number_repetition_count, number);
-
-            //Get order of magnitude
-            int num, mag = 0;
-            num = number_repetition_count;
-            while (num > 0)
-            {
-                mag++;
-                num /= 10;
-            }
-
-            if (next_input > 0)
-                next_input *= (int)pow(10, mag + (double)1);
-
-            next_input += (long long)number_repetition_count * (long long)pow(10, mag) + number;
-
-            final_input /= 10;
-            number_repetition_count = 1; //Reset repetition count
-        }
-
-        printf("\n");
-        printf("Recompute 1\n");
-        printf("To Quit, Tap 0\n");
+        printf("\n __________________\n");
+        printf("|            |     |\n");
+        printf("|   Restart  |  1  |\n");
+        printf("|   Quit     |  0  |\n");
+        printf("|____________|_____|\n\n");
 
         printf("Choice -> ");
-        scanf_s("%d", &recompute);
+        scanf(" %d", &retry);
     }
+
     return 0;
 }
